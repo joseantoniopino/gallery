@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Author;
 use App\Models\Car;
+use App\Models\Image;
 use App\Models\Location;
 use App\Models\Post;
 use App\Models\User;
@@ -27,5 +28,6 @@ class DatabaseSeeder extends Seeder
         Author::factory(5)->create();
         Post::factory(50)->create();
         Location::factory(50)->create();
+        Image::factory(100)->create();
     }
 }

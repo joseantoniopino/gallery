@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $a = 1;
-    $b = 2;
-    $c = $a + $b;
+
+    /*$image = \App\Models\Image::find(1);
+    $post = \App\Models\Post::find(1);
+    $post->images()->attach($image, ['is_favorite' => true]);
+    dd($image->posts->first()->pivot->is_favorite);
+    dd($post->images->first()->pivot->is_favorite);*/
+
     return view('welcome');
 });
