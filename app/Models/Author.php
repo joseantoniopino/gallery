@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Author extends Model
 {
@@ -15,9 +15,8 @@ class Author extends Model
         'age',
     ];
 
-    public function images(): MorphToMany
+    public function images(): MorphMany
     {
-        return $this->morphToMany(Image::class, 'imageable')
-            ->withPivot('is_favorite');
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

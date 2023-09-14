@@ -4,32 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'imageable_type',
+        'imageable_id',
         'path',
         'alt',
+        'is_favorite',
     ];
 
-    public function posts(): MorphToMany
+    public function imageable(): MorphTo
     {
-        return $this->morphedByMany(Post::class, 'imageable')
-            ->withPivot('is_favorite');
-    }
-
-    public function cars(): MorphToMany
-    {
-        return $this->morphedByMany(Car::class, 'imageables')
-            ->withPivot('is_favorite');
-    }
-
-    public function authors(): MorphToMany
-    {
-        return $this->morphedByMany(Author::class, 'imageables')
-            ->withPivot('is_favorite');
+        return $this->morphTo();
     }
 }

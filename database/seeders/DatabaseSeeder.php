@@ -24,10 +24,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(9)->create();
-        Car::factory(20)->create();
-        Author::factory(5)->create();
-        Post::factory(50)->create();
+
+        \File::ensureDirectoryExists(storage_path('app/public/images'));
+
+        Car::factory(10)->create()->each(function (Car $car) {
+            $car->images()->saveMany(Image::factory(rand(2, 7))->make());
+        });
+
+        Author::factory(5)->create()->each(function (Author $author) {
+            $author->images()->saveMany(Image::factory(rand(2, 7))->make());
+        });
+
+        Post::factory(20)->create()->each(function (Post $post) {
+            $post->images()->saveMany(Image::factory(rand(2, 7))->make());
+        });
+
         Location::factory(50)->create();
-        Image::factory(100)->create();
     }
 }
