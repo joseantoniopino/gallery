@@ -16,12 +16,17 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => $this->faker
-                ->image('public/images', 336, 300),
+            'path' => $this->removePublicPrefix($this->faker
+                ->image('public/images', 336, 300)),
             'alt' => $this->faker->word(),
             'is_favorite' => $this->faker->boolean(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
+    }
+
+    private function removePublicPrefix(string $path): string
+    {
+        return str_replace('public/', '', $path);
     }
 }

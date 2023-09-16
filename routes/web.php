@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    /*$image = \App\Models\Image::find(1);
-    $post = \App\Models\Post::find(1);
-    $post->images()->attach($image, ['is_favorite' => true]);
-    dd($image->posts->first()->pivot->is_favorite);
-    dd($post->images->first()->pivot->is_favorite);*/
-
     return view('welcome');
-});
+})->name('dashboard');
+
+Route::get(
+    '/posts',
+    PostController::class
+)->name('posts.index');
