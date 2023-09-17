@@ -13,7 +13,7 @@
     </head>
     @livewireStyles
     <body>
-        <main class="bg-slate-600 flex">
+        <main class="bg-slate-600 flex antialiased">
             <x-side-menu />
             {{ $slot }}
         </main>
