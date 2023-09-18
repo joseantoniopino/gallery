@@ -10,6 +10,8 @@ class Image extends Model
 {
     use HasFactory;
 
+    public const DIR = 'images';
+
     protected $fillable = [
         'imageable_type',
         'imageable_id',
