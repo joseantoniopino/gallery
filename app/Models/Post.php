@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
+use App\Interfaces\IGallery;
+use App\Traits\HasGallery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Post extends Model
+class Post extends Model implements IGallery
 {
     use HasFactory;
+    use HasGallery;
 
     protected $fillable = [
         'title',
         'slug',
     ];
 
-    public function images(): MorphMany
+    public function getName(): string
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->title;
     }
 }
