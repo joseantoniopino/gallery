@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="fixed top-0 inset-x-0 mx-auto w-[1440px] h-[1024px] bg-center bg-origin-border bg-cover blur-sm"
+        <div wire:click="close()" class="fixed top-0 inset-x-0 mx-auto w-[1440px] h-[1024px] bg-center bg-origin-border bg-cover blur-sm"
              style="background-image: url({{ Vite::asset('resources/img/sea.jpg') }})">
             <span class="fixed w-[1440px] h-[1024px] inset-x-0 mx-auto backdrop-blur-lg backdrop bg-black/50"></span>
         </div>
@@ -46,6 +46,7 @@
                         <div
                             class="absolute flex flex-row gap-x-[12.88px] justify-center items-stretch bottom-0 left-0 h-[68px] w-full bg-custom-600/50 rounded-b-lg z-40">
                             <button
+                                wire:click="toggleManagerModal({{ $image }})"
                                 class="w-[122.9px] h-[30px] rounded-[15px] self-center tracking-[0.03em] font-medium leading-[14px] text-[12px] text-black bg-white hover:bg-indigo-400 hover:text-white">
                                 Manage
                             </button>
@@ -65,7 +66,7 @@
                     placeholder="select image" type="file" name="image">
 
                 <button
-                    class="w-44 h-[43px] rounded-[25px] self-center text-white font-medium leading-[19px] text-[16px] tracking-[0.03em] bg-[#3F54D1] mb-3 hover:bg-[#2e3a8a] hover:shadow-xl]"
+                    class="w-44 h-[43px] rounded-[25px] self-center text-white font-medium leading-[19px] text-[16px] tracking-[0.03em] bg-[#3F54D1] mb-3 hover:bg-[#2e3a8a] hover:shadow-xl"
                     style="box-shadow: 0px 4px 4px 0px #0000001A;">UPLOAD
                 </button>
 
@@ -75,8 +76,43 @@
 
 
         {{--MANAGE MODAL--}}
+        @if ($showManagerModal)
+            <div wire:click="toggleManagerModal()" class="fixed backdrop-blur-sm inset-x-0 mx-auto inset-y-0 my-auto w-[1447px] h-[1024px] top-0 bg-black/80 z-40"></div>
+            
+            <div class="w-[560px] h-[385px] inset-x-0 inset-y-0 bg-white/20 backdrop-brightness-50 backdrop-blur-md fixed m-auto z-40 rounded-[3px] text-white">
+                <button wire:click="toggleManagerModal()" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
 
+                <div class="grid grid-cols-2 grid-rows-4 pl-[66px] pt-[63px]">
+                    <h3 class="col-span-2 text-xl font-medium leading-[23px] tracking-[0.03em] text-left">Image {{ $image->id }}</h3>
+                    <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
+                        <label for="name" class="absolute mt-3 text-left">Name</label>
+                        <input id="name" type="text" class="float-right mr-24 pl-3 w-[312px] h-10 rounded-lg bg-white/20" autocomplete="off">
+                    </div>
 
+                    <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
+                        <label for="alt" class="absolute mt-3 text-left">Alt</label>
+                        <input id="alt" type="text" class="float-right mr-24 pl-3 w-[312px] h-10 rounded-lg bg-white/20" autocomplete="off">
+                    </div>
+                          
+                    <div class="col-span-2 grid grid-cols-2 mb-8">
+                        <button 
+                        class="text-base font-medium leading-[19px] tracking-[0.03em] text-center w-44 h-[43px] rounded-[25px] bg-[#3F54D1] hover:bg-[#2e3a8a] hover:shadow-xl"
+                        style=""
+                        >
+                            SAVE
+                        </button>
+                        <p class="absolute text-xs right-28 font-medium leading-[14px] tracking-[0.03em] text-[#FF9F9F] mt-4">In Case Of Error. Message Here</p>
+                    </div>
+
+                </div>
+                
+            </div>
+        @endif
     @endif
 
 </div>

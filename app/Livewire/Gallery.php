@@ -11,7 +11,7 @@ class Gallery extends Component
 {
     public IGallery $galleryModel;
     public bool $show = false;
-    public ?Image $currentImage = null;
+    public bool $showManagerModal = false;
 
     protected $listeners = [
         'showGallery' => 'showGallery',
@@ -27,12 +27,27 @@ class Gallery extends Component
 
     public function close(): void
     {
+        if ($this->showManagerModal) {
+            $this->toggleManagerModal();
+            return;
+        }
         $this->show = false;
     }
 
     public function toggleFavorite(Image $image): void
     {
         $image->update(['is_favorite' => !$image->is_favorite]);
+        $this->dispatch('refreshComponent');
+    }
+
+    public function toggleManagerModal(?Image $image = null): void
+    {
+        $this->showManagerModal = !$this->showManagerModal;
+    }
+
+    public function deleteImage(Image $image): void
+    {
+        $image->delete();
         $this->dispatch('refreshComponent');
     }
 
