@@ -1,7 +1,8 @@
 <div>
 
     @if($success)
-        <div wire:click="hideSuccess()" class="absolute top-0 right-0 w-full z-50 bg-green-700 p-3 shadow-black text-white text-center cursor-pointer">
+        <div wire:click="hideSuccess()"
+             class="absolute top-0 right-0 w-full z-50 bg-green-700 p-3 shadow-black text-white text-center cursor-pointer">
             {{ $successMessage }}
         </div>
     @endif
@@ -72,81 +73,87 @@
 
             <div class=>
 
-                <form wire:submit="storeImage()" class="fixed flex flex-row gap-x-4 inset-x-0 mx-auto w-[1248px] bottom-10 h-12 z-20">
-                <input
-                    wire:model="imageToUpload"
-                    class="block file:hidden cursor-pointer w-[312px] h-10 rounded-lg bg-white/20 p-1 text-white text-base leading-[19px] tracking-[0.03em] focus:outline-none"
-                    placeholder="select image" type="file" name="imageToUpload" accept="image/*">
-                <button
-                    type="submit"
-                    class="w-44 h-[43px] rounded-[25px] self-center text-white font-medium leading-[19px] text-[16px] tracking-[0.03em] bg-[#3F54D1] mb-3 hover:bg-[#2e3a8a] hover:shadow-xl"
-                    style="box-shadow: 0px 4px 4px 0px #0000001A;">UPLOAD
-                </button>
-                <span class="text-[#FF9F9F] text-xs tracking-[0.03em] font-medium leading-[14px] mt-2">@error('imageToUpload') {{ $message }} @enderror</span>
-            </form>
-        </div>
+                <form wire:submit="storeImage()"
+                      class="fixed flex flex-row gap-x-4 inset-x-0 mx-auto w-[1248px] bottom-10 h-12 z-20">
+                    <input
+                        wire:model="imageToUpload"
+                        class="block file:hidden cursor-pointer w-[312px] h-10 rounded-lg bg-white/20 p-1 text-white text-base leading-[19px] tracking-[0.03em] focus:outline-none"
+                        placeholder="select image" type="file" name="imageToUpload" accept="image/*">
+                    <button
+                        type="submit"
+                        class="w-44 h-[43px] rounded-[25px] self-center text-white font-medium leading-[19px] text-[16px] tracking-[0.03em] bg-[#3F54D1] mb-3 hover:bg-[#2e3a8a] hover:shadow-xl"
+                        style="box-shadow: 0px 4px 4px 0px #0000001A;">UPLOAD
+                    </button>
+                    <span
+                        class="text-[#FF9F9F] text-xs tracking-[0.03em] font-medium leading-[14px] mt-2">@error('imageToUpload') {{ $message }} @enderror</span>
+                </form>
+            </div>
 
 
-        {{--MANAGE MODAL--}}
-        @if ($showManagerModal)
-            {{-- @if (true)
-            @php
-                $image = $galleryModel->images->first();
-            @endphp --}}
-            <div wire:click="toggleManagerModal()"
-                 class="fixed backdrop-blur-sm inset-x-0 mx-auto inset-y-0 my-auto w-[1447px] h-[1024px] top-0 bg-black/80 z-40"></div>
+            {{--MANAGE MODAL--}}
+            @if ($showManagerModal)
+                {{-- @if (true)
+                @php
+                    $image = $galleryModel->images->first();
+                @endphp --}}
+                <div wire:click="toggleManagerModal()"
+                     class="fixed backdrop-blur-sm inset-x-0 mx-auto inset-y-0 my-auto w-[1447px] h-[1024px] top-0 bg-black/80 z-40"></div>
 
-            <form wire:submit="saveManagerModal()"
-                class="w-[560px] h-[385px] inset-x-0 inset-y-0 bg-white/20 backdrop-brightness-50 backdrop-blur-md fixed m-auto z-40 rounded-[3px] text-white">
-                <button wire:click="toggleManagerModal()" type="button"
-                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="authentication-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
+                <form wire:submit="saveManagerModal()"
+                      class="w-[560px] h-[385px] inset-x-0 inset-y-0 bg-white/20 backdrop-brightness-50 backdrop-blur-md fixed m-auto z-40 rounded-[3px] text-white">
+                    <button wire:click="toggleManagerModal()" type="button"
+                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="authentication-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
 
-                <div class="grid grid-cols-2 grid-rows-4 pl-[66px] pt-[63px]">
-                    <h3 class="col-span-2 text-xl font-medium leading-[23px] tracking-[0.03em] text-left">
-                        Image {{ $image->id }}</h3>
-                    <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
-                        <label for="name" class="absolute mt-3 text-left">Name</label>
+                    <div class="grid grid-cols-2 grid-rows-4 pl-[66px] pt-[63px]">
+                        <h3 class="col-span-2 text-xl font-medium leading-[23px] tracking-[0.03em] text-left">
+                            Image {{ $image->id }}</h3>
+                        <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
+                            <label for="name" class="absolute mt-3 text-left">Name</label>
 
-                        <div class="flex float-right mr-24">
-                            <input wire:model.blur="imageName" id="name" type="text"
-                                    class="pl-3 w-[250px] h-10 rounded-s-lg bg-white/20 outline-none" autocomplete="off" />
+                            <div class="flex float-right mr-24">
+                                <input wire:model.blur="imageName" id="name" type="text"
+                                       class="pl-3 w-[250px] h-10 rounded-s-lg bg-white/20 outline-none"
+                                       autocomplete="off"/>
 
-                            <input wire:model.blur="imageExtension" id="extension" type="text"
-                                    class="ml-0 pl-3 w-[62px] h-10 rounded-e-lg border-l-2 border-l-stone-500 bg-white/20" disabled />
+                                <input wire:model.blur="imageExtension" id="extension" type="text"
+                                       class="ml-0 pl-3 w-[62px] h-10 rounded-e-lg border-l-2 border-l-stone-500 bg-white/20"
+                                       disabled/>
+                            </div>
+
+                        </div>
+
+                        <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
+                            <label for="alt" class="absolute mt-3 text-left">Alt</label>
+                            <input wire:model="imageAlt" id="alt" type="text"
+                                   class="float-right mr-24 pl-3 w-[312px] h-10 rounded-lg bg-white/20 outline-none"
+                                   autocomplete="off">
+                        </div>
+
+                        <div class="col-span-2 grid grid-cols-2 mb-8">
+                            <button
+                                type="submit"
+                                class="text-base font-medium leading-[19px] tracking-[0.03em] text-center w-44 h-[43px] rounded-[25px] bg-[#3F54D1] hover:bg-[#2e3a8a] hover:shadow-xl"
+                                style=""
+                            >
+                                SAVE
+                            </button>
+                            <p class="absolute w-52 text-xs right-20 font-medium leading-[14px] tracking-[0.03em] text-[#FF9F9F] mt-4">
+                                @error('imageAlt') {{ $message }} @enderror @error('imageName') {{ $message }} @enderror</p>
                         </div>
 
                     </div>
 
-                    <div class="col-span-2 text-base font-medium leading-[19px] tracking-[0.03em]">
-                        <label for="alt" class="absolute mt-3 text-left">Alt</label>
-                        <input wire:model="imageAlt" id="alt" type="text"
-                               class="float-right mr-24 pl-3 w-[312px] h-10 rounded-lg bg-white/20 outline-none" autocomplete="off">
-                    </div>
+                </form>
+            @endif
+            @endif
 
-                    <div class="col-span-2 grid grid-cols-2 mb-8">
-                        <button
-                            type="submit"
-                            class="text-base font-medium leading-[19px] tracking-[0.03em] text-center w-44 h-[43px] rounded-[25px] bg-[#3F54D1] hover:bg-[#2e3a8a] hover:shadow-xl"
-                            style=""
-                        >
-                            SAVE
-                        </button>
-                        <p class="absolute w-52 text-xs right-20 font-medium leading-[14px] tracking-[0.03em] text-[#FF9F9F] mt-4">
-                            @error('imageAlt') {{ $message }} @enderror @error('imageName') {{ $message }} @enderror</p>
-                    </div>
-
-                </div>
-
-            </form>
-        @endif
-    @endif
-
+        </div>
 </div>
