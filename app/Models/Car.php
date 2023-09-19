@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
+use App\Interfaces\IGallery;
+use App\Traits\HasGallery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Car extends Model
+class Car extends Model implements IGallery
 {
     use HasFactory;
+    use HasGallery;
 
     protected $fillable = [
         'brand',
         'model',
     ];
 
-    public function images(): MorphMany
+    public function getName(): string
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->brand . ' ' . $this->model;
     }
 }
+

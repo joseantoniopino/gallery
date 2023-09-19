@@ -1,24 +1,13 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('dashboard');
 
-Route::get(
-    '/posts',
-    PostController::class
-)->name('posts.index');
+Route::get('/posts',PostController::class)->name('posts.index');
+Route::get('/cars', CarController::class)->name('cars.index');

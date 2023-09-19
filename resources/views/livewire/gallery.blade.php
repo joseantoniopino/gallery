@@ -79,13 +79,13 @@
                 <input
                     wire:model="imageToUpload"
                     class="block file:hidden cursor-pointer w-[312px] h-10 rounded-lg bg-white/20 p-1 text-white text-base leading-[19px] tracking-[0.03em] focus:outline-none"
-                    placeholder="select image" type="file" name="image" accept="image/*">
+                    placeholder="select image" type="file" name="imageToUpload" accept="image/*">
                 <button
                     type="submit"
                     class="w-44 h-[43px] rounded-[25px] self-center text-white font-medium leading-[19px] text-[16px] tracking-[0.03em] bg-[#3F54D1] mb-3 hover:bg-[#2e3a8a] hover:shadow-xl"
                     style="box-shadow: 0px 4px 4px 0px #0000001A;">UPLOAD
                 </button>
-                <span class="text-[#FF9F9F] text-xs tracking-[0.03em] font-medium leading-[14px] mt-2">In case of Error. Message Here</span>
+                <span class="text-[#FF9F9F] text-xs tracking-[0.03em] font-medium leading-[14px] mt-2">@error('imageToUpload') {{ $message }} @enderror</span>
             </form>
         </div>
 

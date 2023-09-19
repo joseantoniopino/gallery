@@ -2,7 +2,7 @@
     <div class="flex flex-col space-y-4 p-3">
         <div><a href="{{ route('dashboard') }}">Dashboard</a></div>
         <div><a href="{{ route('posts.index') }}">Posts</a></div>
-        <div><a href="#">Cars</a></div>
+        <div><a href="{{ route('cars.index') }}">Cars</a></div>
         <div><a href="#">Authors</a></div>
         <div><a href="#">Locations</a></div>
     </div>
