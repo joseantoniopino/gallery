@@ -14,7 +14,7 @@ class AuthorFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'age' => $this->faker->randomNumber(),
+            'age' => rand(20, 80),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

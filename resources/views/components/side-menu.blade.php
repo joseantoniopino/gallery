@@ -3,7 +3,7 @@
         <div><a href="{{ route('dashboard') }}">Dashboard</a></div>
         <div><a href="{{ route('posts.index') }}">Posts</a></div>
         <div><a href="{{ route('cars.index') }}">Cars</a></div>
-        <div><a href="{{ route('author.index') }}">Authors</a></div>
-        <div><a href="#">Locations</a></div>
+        <div><a href="{{ route('authors.index') }}">Authors</a></div>
+        <div><a href="{{ route('locations.index') }}">Locations</a></div>
     </div>
 </nav>

@@ -27,18 +27,18 @@ class DatabaseSeeder extends Seeder
 
         \File::ensureDirectoryExists(storage_path('app/public/images'));
 
-        Car::factory(10)->create()->each(function (Car $car) {
+        Car::factory(config('seeders.cars_count'))->create()->each(function (Car $car) {
             $car->images()->saveMany(Image::factory(rand(2, 7))->make());
         });
 
-        Author::factory(5)->create()->each(function (Author $author) {
+        Author::factory(config('seeders.authors_count'))->create()->each(function (Author $author) {
             $author->images()->saveMany(Image::factory(rand(2, 7))->make());
         });
 
-        Post::factory(20)->create()->each(function (Post $post) {
+        Post::factory(config('seeders.posts_count'))->create()->each(function (Post $post) {
             $post->images()->saveMany(Image::factory(rand(2, 7))->make());
         });
 
-        Location::factory(50)->create();
+        Location::factory(config('seeders.locations_count'))->create();
     }
 }

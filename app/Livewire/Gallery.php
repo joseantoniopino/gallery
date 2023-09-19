@@ -16,21 +16,113 @@ class Gallery extends Component
     use WithFileUploads;
 
     public IGallery $galleryModel;
+
     public bool $show = false;
+
     public bool $showManagerModal = false;
+
     public ?Image $image;
+
     public string $imageName;
+
     public string $imageAlt;
+
     public string $imageExtension;
+
     public string $oldImageName;
+
     public bool $success = false;
+
     public string $successMessage = '';
+
     public $imageToUpload;
 
     protected $listeners = [
         'showGallery' => 'showGallery',
         'refreshComponent' => '$refresh',
     ];
+
+    /*REQUEST OPERATIONS*/
+
+    public function storeImage(): void
+    {
+        $this->validate([
+            'imageToUpload' => 'required|image|max:2048', // 2MB Max
+        ]);
+        $alt = Str::slug(pathinfo($this->imageToUpload->getClientOriginalName(), PATHINFO_FILENAME));
+
+        $this->imageName = $this->imageToUpload->hashName();
+
+        $path = $this->imageToUpload->store();
+        $path = Image::DIR . '/' . $path;
+
+        $this->galleryModel->images()->create([
+            'path' => $path,
+            'alt' => $alt,
+        ]);
+        $this->imageToUpload = null;
+
+        $this->dispatch('refreshComponent');
+    }
+
+    public function saveManagerModal(): void
+    {
+        $this->validate([
+            'imageName' => 'required|string|max:255',
+            'imageAlt' => 'required|string|max:255',
+        ]);
+
+        $this->imageName = Str::slug($this->imageName, separator: '_');
+
+        try {
+            DB::beginTransaction();
+            $this->image->update([
+                'path' => $this->image::DIR . '/' . $this->imageName . $this->imageExtension,
+                'alt' => $this->imageAlt,
+            ]);
+
+            Storage::disk('gallery')->move($this->oldImageName . $this->imageExtension, $this->imageName . $this->imageExtension);
+            DB::commit();
+            $this->toggleManagerModal();
+            $this->successMessage = 'Image updated successfully';
+            $this->success = true;
+            $this->dispatch('refreshComponent');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public function deleteImage(Image $image): void
+    {
+        $slicedPath = $this->slicePath($image->path);
+        $this->image = $image;
+        $this->imageName = $slicedPath[1];
+        $this->imageExtension = $slicedPath[2];
+
+        try {
+            DB::beginTransaction();
+            $this->image->delete();
+            Storage::disk('gallery')->delete($this->imageName . $this->imageExtension);
+            DB::commit();
+            $this->image = Image::make();
+            $this->successMessage = 'Image deleted successfully';
+            $this->success = true;
+            $this->dispatch('refreshComponent');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            abort(500, $e->getMessage());
+        }
+    }
+
+    public function toggleFavorite(Image $image): void
+    {
+        $image->update(['is_favorite' => !$image->is_favorite]);
+        $this->dispatch('refreshComponent');
+    }
+
+
+    /*HELPERS*/
 
     public function showGallery(string $nameSpace, int $modelId): void
     {
@@ -39,20 +131,11 @@ class Gallery extends Component
         $this->show = true;
     }
 
-    public function close(): void
+    public function hideSuccess(): void
     {
-        if ($this->showManagerModal) {
-            $this->toggleManagerModal();
-            return;
+        if ($this->success === true) {
+            $this->success = false;
         }
-        $this->hideSuccess();
-        $this->show = false;
-    }
-
-    public function toggleFavorite(Image $image): void
-    {
-        $image->update(['is_favorite' => !$image->is_favorite]);
-        $this->dispatch('refreshComponent');
     }
 
     public function toggleManagerModal(?Image $image = null): void
@@ -69,49 +152,18 @@ class Gallery extends Component
         }
     }
 
-    public function deleteImage(Image $image): void
+    public function close(): void
     {
-        $slicedPath = $this->slicePath($image->path);
-        $this->image = $image;
-        $this->imageName = $slicedPath[1];
-        $this->imageAlt = $image->alt;
-        $this->imageExtension = $slicedPath[2];
-
-        Storage::disk('gallery')->delete($this->imageName . $this->imageExtension);
-        $this->image->delete();
-        $this->image = Image::make();
-        $this->dispatch('refreshComponent');
-    }
-
-    public function saveManagerModal(): void
-    {
-        $this->validate([
-            'imageName' => 'required|string|max:255',
-            'imageAlt' => 'required|string|max:255',
-        ]);
-
-        /*$imageFile = Storage::disk('gallery')->get($this->imageName . $this->imageExtension);*/
-        $this->imageName = Str::slug($this->imageName, separator: '_');
-
-        try {
-            DB::beginTransaction();
-            $this->image->update([
-                'path' => $this->image::DIR . '/' . $this->imageName . $this->imageExtension,
-                'alt' => $this->imageAlt,
-            ]);
-
-            Storage::disk('gallery')->move($this->oldImageName . $this->imageExtension, $this->imageName . $this->imageExtension);
-            DB::commit();
+        $this->hideSuccess();
+        if ($this->showManagerModal) {
             $this->toggleManagerModal();
-            unset($this->image);
-            $this->successMessage = 'Name and alt updated successfully';
-            $this->success = true;
-            $this->dispatch('refreshComponent');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            abort(500, $e->getMessage());
+            return;
         }
+        $this->show = false;
     }
+
+
+    /*PRIVATE*/
 
     private function slicePath(string $imagePath): array
     {
@@ -133,33 +185,6 @@ class Gallery extends Component
 
         // Return the elements in an array
         return [$folder, $fileName, $fileExtension];
-    }
-
-    public function hideSuccess(): void
-    {
-        if ($this->success === true) {
-            $this->success = false;
-        }
-    }
-
-    public function storeImage()
-    {
-        $this->validate([
-            'imageToUpload' => 'required|image|max:2048', // 2MB Max
-        ]);
-        $alt = Str::slug(pathinfo($this->imageToUpload->getClientOriginalName(), PATHINFO_FILENAME));
-
-        $this->imageName = $this->imageToUpload->hashName();
-
-        $path = $this->imageToUpload->store();
-        $path = Image::DIR . '/' . $path;
-
-        $this->galleryModel->images()->create([
-            'path' => $path,
-            'alt' => $alt,
-        ]);
-
-        $this->dispatch('refreshComponent');
     }
 
 }

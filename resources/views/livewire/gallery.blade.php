@@ -1,4 +1,5 @@
 <div>
+
     @if($success)
         <div wire:click="hideSuccess()" class="absolute top-0 right-0 w-full z-50 bg-green-700 p-3 shadow-black text-white text-center cursor-pointer">
             {{ $successMessage }}
@@ -6,10 +7,6 @@
     @endif
 
     @if($show === true)
-    {{-- @if (true)
-    @php
-        $galleryModel = App\Models\Post::find(1);
-    @endphp --}}
         <div wire:click="close()"
              class="absolute top-0 left-0 w-full h-full overflow-y-hidden bg-custom-950/80 backdrop-blur-md"></div>
 
@@ -32,7 +29,7 @@
 
         <div wire:click="close()"
              class="fixed top-0 inset-x-0 mx-auto w-[1440px] h-[1024px] bg-center bg-origin-border bg-cover blur-sm"
-             style="background-image: url({{ Vite::asset('resources/img/sea.jpg') }})">
+             style="background-image: url({{ asset('img/sea.jpg') }})">
             <span class="fixed w-[1440px] h-[1024px] inset-x-0 mx-auto backdrop-blur-lg backdrop bg-black/50"></span>
         </div>
 
