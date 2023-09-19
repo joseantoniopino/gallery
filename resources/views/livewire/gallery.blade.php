@@ -22,7 +22,7 @@
                 </svg>
             </span>
                 <p class="font-medium text-white group-hover:text-indigo-800 text-xs mt-1 mr-1">
-                    Back To Cars List
+                    Back To {{ $galleryModel->getImageableName() }} List
                 </p>
             </div>
         </div>
