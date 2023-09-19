@@ -27,7 +27,7 @@
                     <td class="px-6 py-4">
                         <button
                             x-data={}
-                            @click="$dispatch('showGallery', { nameSpace: {{ json_encode(get_class($post)) }}, modelId: {{ $post->id }} })"
+                            @click="$dispatch('showGallery',  { nameSpace: {{ json_encode(get_class($post)) }}, modelId: {{ $post->id }} })"
                             class="text-center w-[122.9px] h-[30px] rounded-[15px] self-center tracking-[0.03em] font-medium leading-[14px] text-[12px] text-indigo-900 bg-indigo-300 hover:bg-indigo-900 hover:text-indigo-300">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6 mx-auto">

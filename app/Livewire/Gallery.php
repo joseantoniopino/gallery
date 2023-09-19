@@ -49,6 +49,7 @@ class Gallery extends Component
         $this->validate([
             'imageToUpload' => 'required|image|max:2048', // 2MB Max
         ]);
+
         $alt = Str::slug(pathinfo($this->imageToUpload->getClientOriginalName(), PATHINFO_FILENAME));
 
         $this->imageName = $this->imageToUpload->hashName();
@@ -60,6 +61,7 @@ class Gallery extends Component
             'path' => $path,
             'alt' => $alt,
         ]);
+
         $this->imageToUpload = null;
 
         $this->dispatch('refreshComponent');
@@ -161,7 +163,6 @@ class Gallery extends Component
         }
         $this->show = false;
     }
-
 
     /*PRIVATE*/
 

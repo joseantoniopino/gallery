@@ -92,10 +92,6 @@
 
             {{--MANAGE MODAL--}}
             @if ($showManagerModal)
-                {{-- @if (true)
-                @php
-                    $image = $galleryModel->images->first();
-                @endphp --}}
                 <div wire:click="toggleManagerModal()"
                      class="fixed backdrop-blur-sm inset-x-0 mx-auto inset-y-0 my-auto w-[1447px] h-[1024px] top-0 bg-black/80 z-40"></div>
 
